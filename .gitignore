@@ -41,3 +41,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### JVM crash dumps ###
+ajcore.*.txt
+hs_err_pid*.log

@@ -1,9 +1,16 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '4.1.0'
 }
 
-group = 'org.example'
-version = '1.0-SNAPSHOT'
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+group = 'com.booker.api'
+version = '1.0.0'
 
 repositories {
     mavenCentral()
@@ -14,8 +21,34 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:6.0.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    testImplementation platform('io.qameta.allure:allure-bom:2.29.1')
+    testImplementation 'io.qameta.allure:allure-rest-assured'
+    testImplementation 'io.qameta.allure:allure-junit5'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.38'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.38'
+
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
+    testImplementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.2'
+
+    testImplementation 'org.assertj:assertj-core:3.27.3'
+
+    testImplementation 'org.slf4j:slf4j-api:2.0.16'
+    testImplementation 'ch.qos.logback:logback-classic:1.5.16'
 }
 
 test {
     useJUnitPlatform()
+    maxHeapSize = '1g'
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        exceptionFormat 'full'
+    }
+}
+
+allure {
+    // CLI download version for the allureReport/allureServe tasks — versioned
+    // independently from the allure-bom used for the Java dependencies below.
+    version = '2.34.1'
 }
